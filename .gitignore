@@ -1,0 +1,21 @@
+# Ignore Vagrant files
+VagrantVM/.vagrant/
+
+
+# Ignore the venv environment
+
+# Ignore temporary files
+*.log
+*.tmp
+*.swp
+*~
+
+# Ignore IDE or editor specific files
+.vscode/
+.idea/
+*.sublime-workspace
+*.sublime-project
+
+# Ignore system files
+.DS_Store
+Thumbs.db
