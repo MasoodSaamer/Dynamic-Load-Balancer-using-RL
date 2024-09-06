@@ -1,0 +1,136 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure("2") do |config|
+  # Define the Nomad Server VM
+  config.vm.define "nomad-server" do |server|
+    server.vm.box = "ubuntu/bionic64"
+    server.vm.hostname = "nomad-server"
+    server.vm.network "private_network", ip: "192.168.56.4"  # Static IP for Nomad server
+    server.vm.boot_timeout = 600  # Increased timeout for boot
+
+    # Provision the Nomad Server
+    server.vm.provision "shell", inline: <<-SHELL
+      sudo apt-get update
+      sudo apt-get install -y curl unzip
+
+      # Install Docker
+      curl -fsSL https://get.docker.com -o get-docker.sh
+      sh get-docker.sh
+
+      # Install Nomad
+      curl -O https://releases.hashicorp.com/nomad/1.8.3/nomad_1.8.3_linux_amd64.zip
+      unzip nomad_1.8.3_linux_amd64.zip
+      sudo mv nomad /usr/local/bin/
+
+      # Install Consul
+      curl -O https://releases.hashicorp.com/consul/1.8.0/consul_1.8.0_linux_amd64.zip
+      unzip consul_1.8.0_linux_amd64.zip
+      sudo mv consul /usr/local/bin/
+
+      # Create Nomad and Consul configuration directories and data directories
+      sudo mkdir -p /etc/nomad.d /opt/nomad/data /etc/consul.d /opt/consul/data
+
+      # Nomad server configuration
+      cat <<EOF | sudo tee /etc/nomad.d/server.hcl
+server {
+  enabled = true
+  bootstrap_expect = 1
+}
+data_dir = "/opt/nomad/data"
+bind_addr = "0.0.0.0"  # Listen on all interfaces
+advertise {
+  http = "192.168.56.4:4646"
+  rpc  = "192.168.56.4:4647"
+  serf = "192.168.56.4:4648"
+}
+EOF
+
+      # Consul server configuration
+      cat <<EOF | sudo tee /etc/consul.d/server.hcl
+server = true
+bootstrap_expect = 1
+data_dir = "/opt/consul/data"
+bind_addr = "0.0.0.0"
+client_addr = "0.0.0.0"
+advertise_addr = "192.168.56.4"
+retry_join = ["192.168.56.4"]
+EOF
+
+      # Start Consul server
+      sudo consul agent -server -config-dir=/etc/consul.d -bind=192.168.56.4 > /vagrant/consul-server.log 2>&1 &
+
+      # Start Nomad server
+      sudo nomad agent -config=/etc/nomad.d/server.hcl > /vagrant/server.log 2>&1 &
+    SHELL
+  end
+
+  # Define the Nomad Client VMs (3 Clients)
+  (1..3).each do |i|
+    config.vm.define "nomad-client#{i}" do |client|
+      client.vm.box = "ubuntu/bionic64"
+      client.vm.hostname = "nomad-client#{i}"
+      client.vm.network "private_network", ip: "192.168.56.#{i + 4}"  # Static IP for Nomad clients
+      client.vm.boot_timeout = 600  # Increased timeout for boot
+
+      # Provision the Nomad Clients
+      client.vm.provision "shell", inline: <<-SHELL
+        sudo apt-get update
+        sudo apt-get install -y curl unzip docker.io
+        sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+        sudo chmod +x /usr/local/bin/docker-compose
+
+        # Install Nomad
+        curl -O https://releases.hashicorp.com/nomad/1.8.3/nomad_1.8.3_linux_amd64.zip
+        unzip nomad_1.8.3_linux_amd64.zip
+        sudo mv nomad /usr/local/bin/
+
+        # Install Consul
+        curl -O https://releases.hashicorp.com/consul/1.8.0/consul_1.8.0_linux_amd64.zip
+        unzip consul_1.8.0_linux_amd64.zip
+        sudo mv consul /usr/local/bin/
+
+        # Enable Docker service
+        sudo systemctl start docker
+        sudo systemctl enable docker
+
+        # Create Nomad and Consul configuration directories and data directories
+        sudo mkdir -p /etc/nomad.d /opt/nomad/data /etc/consul.d /opt/consul/data
+
+        # Nomad client configuration
+        cat <<EOF | sudo tee /etc/nomad.d/client.hcl
+client {
+  enabled = true
+  servers = ["192.168.56.4:4647"]
+  network_interface = "enp0s8"
+  options {
+    "driver.raw_exec.enable" = "1"
+  }
+}
+data_dir = "/opt/nomad/data"
+advertise {
+  http = "192.168.56.#{i + 4}:4646"
+  rpc  = "192.168.56.#{i + 4}:4647"
+  serf = "192.168.56.#{i + 4}:4648"
+}
+EOF
+
+        # Consul client configuration
+        cat <<EOF | sudo tee /etc/consul.d/client.hcl
+data_dir = "/opt/consul/data"
+bind_addr = "0.0.0.0"
+client_addr = "0.0.0.0"
+advertise_addr = "192.168.56.#{i + 4}"
+retry_join = ["192.168.56.4"]
+EOF
+
+        # Start Consul client
+        sudo consul agent -config-dir=/etc/consul.d -bind=192.168.56.#{i + 4} > /vagrant/consul-client#{i}.log 2>&1 &
+
+        # Start Nomad client
+        sudo nomad agent -config=/etc/nomad.d/client.hcl > /vagrant/client#{i}.log 2>&1 &
+      SHELL
+    end
+  end
+end
+

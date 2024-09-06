@@ -1,0 +1,38 @@
+==> Starting Consul agent...
+           Version: 'v1.8.0'
+           Node ID: '8317da82-7450-7b85-786b-feedbde83f46'
+         Node name: 'nomad-client1'
+        Datacenter: 'dc1' (Segment: '')
+            Server: false (Bootstrap: false)
+       Client Addr: [0.0.0.0] (HTTP: 8500, HTTPS: -1, gRPC: -1, DNS: 8600)
+      Cluster Addr: 192.168.56.5 (LAN: 8301, WAN: 8302)
+           Encrypt: Gossip: false, TLS-Outgoing: false, TLS-Incoming: false, Auto-Encrypt-TLS: false
+
+==> Log data will now stream in as it occurs:
+
+    2024-09-06T05:56:59.514Z [INFO]  agent.client.serf.lan: serf: EventMemberJoin: nomad-client1 192.168.56.5
+    2024-09-06T05:56:59.528Z [INFO]  agent: Started DNS server: address=0.0.0.0:8600 network=tcp
+    2024-09-06T05:56:59.528Z [INFO]  agent: Started DNS server: address=0.0.0.0:8600 network=udp
+    2024-09-06T05:56:59.530Z [INFO]  agent: Started HTTP server: address=[::]:8500 network=tcp
+    2024-09-06T05:56:59.535Z [INFO]  agent: Retry join is supported for the following discovery methods: cluster=LAN discovery_methods="aliyun aws azure digitalocean gce k8s linode mdns os packet scaleway softlayer tencentcloud triton vsphere"
+    2024-09-06T05:56:59.552Z [INFO]  agent: Joining cluster...: cluster=LAN
+    2024-09-06T05:56:59.553Z [INFO]  agent: (LAN) joining: lan_addresses=[192.168.56.4]
+    2024-09-06T05:56:59.554Z [INFO]  agent: started state syncer
+==> Consul agent running!
+    2024-09-06T05:56:59.559Z [WARN]  agent.client.manager: No servers available
+    2024-09-06T05:56:59.562Z [ERROR] agent.anti_entropy: failed to sync remote state: error="No known Consul servers"
+    2024-09-06T05:56:59.564Z [INFO]  agent.client.serf.lan: serf: EventMemberJoin: nomad-server 192.168.56.4
+    2024-09-06T05:56:59.566Z [INFO]  agent: (LAN) joined: number_of_nodes=1
+    2024-09-06T05:56:59.568Z [INFO]  agent: Join cluster completed. Synced with initial agents: cluster=LAN num_agents=1
+    2024-09-06T05:56:59.570Z [INFO]  agent.client: adding server: server="nomad-server (Addr: tcp/192.168.56.4:8300) (DC: dc1)"
+    2024-09-06T05:57:01.189Z [INFO]  agent: Synced node info
+    2024-09-06T05:57:02.160Z [INFO]  agent: Synced service: service=_nomad-client-gtcr2wobxtrrynjhytwauowdyalfbwoj
+    2024-09-06T05:57:02.259Z [INFO]  agent: Synced check: check=_nomad-check-7e62634c2612b39442069aba63d420c0fbefd341
+    2024-09-06T05:57:03.245Z [INFO]  agent: Synced check: check=_nomad-check-7e62634c2612b39442069aba63d420c0fbefd341
+    2024-09-06T05:57:11.115Z [INFO]  agent: Newer Consul version available: new_version=1.19.2 current_version=1.8.0
+    2024-09-06T05:59:51.214Z [INFO]  agent.client.serf.lan: serf: EventMemberJoin: nomad-client2 192.168.56.6
+    2024-09-06T06:02:52.425Z [INFO]  agent.client.serf.lan: serf: EventMemberJoin: nomad-client3 192.168.56.7
+    2024-09-06T06:21:09.534Z [INFO]  agent.client.memberlist.lan: memberlist: Suspect nomad-server has failed, no acks received
+    2024-09-06T06:21:12.532Z [INFO]  agent.client.memberlist.lan: memberlist: Suspect nomad-server has failed, no acks received
+    2024-09-06T06:21:13.522Z [INFO]  agent.client.serf.lan: serf: EventMemberFailed: nomad-server 192.168.56.4
+    2024-09-06T06:21:13.526Z [INFO]  agent.client: removing server: server="nomad-server (Addr: tcp/192.168.56.4:8300) (DC: dc1)"

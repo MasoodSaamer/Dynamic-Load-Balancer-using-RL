@@ -1,0 +1,53 @@
+==> WARNING: mTLS is not configured - Nomad is not secure without mTLS!
+==> Loaded configuration from /etc/nomad.d/client.hcl
+==> Starting Nomad agent...
+==> Nomad agent configuration:
+
+       Advertise Addrs: HTTP: 192.168.56.7:4646
+            Bind Addrs: HTTP: [0.0.0.0:4646]
+                Client: true
+             Log Level: INFO
+                Region: global (DC: dc1)
+                Server: false
+               Version: 1.8.3
+
+==> Nomad agent started! Log data will stream in below:
+
+    2024-09-06T06:02:52.937Z [WARN]  agent.plugin_loader: skipping external plugins since plugin_dir doesn't exist: plugin_dir=/opt/nomad/data/plugins
+    2024-09-06T06:02:52.940Z [INFO]  agent: detected plugin: name=docker type=driver plugin_version=0.1.0
+    2024-09-06T06:02:52.940Z [INFO]  agent: detected plugin: name=raw_exec type=driver plugin_version=0.1.0
+    2024-09-06T06:02:52.940Z [INFO]  agent: detected plugin: name=exec type=driver plugin_version=0.1.0
+    2024-09-06T06:02:52.940Z [INFO]  agent: detected plugin: name=qemu type=driver plugin_version=0.1.0
+    2024-09-06T06:02:52.940Z [INFO]  agent: detected plugin: name=java type=driver plugin_version=0.1.0
+    2024-09-06T06:02:52.940Z [INFO]  client: using state directory: state_dir=/opt/nomad/data/client
+    2024-09-06T06:02:52.974Z [INFO]  client: using alloc directory: alloc_dir=/opt/nomad/data/alloc
+    2024-09-06T06:02:52.974Z [INFO]  client: using dynamic ports: min=20000 max=32000 reserved=""
+    2024-09-06T06:02:53.051Z [INFO]  client.fingerprint_mgr.consul: consul agent is available: cluster=default
+    2024-09-06T06:02:53.056Z [WARN]  client.fingerprint_mgr.landlock: failed to fingerprint kernel landlock feature: error="function not implemented"
+    2024-09-06T06:02:53.064Z [WARN]  client.fingerprint_mgr.network: unable to parse speed: path=/sbin/ethtool device=lo
+    2024-09-06T06:02:53.071Z [WARN]  client.fingerprint_mgr.network: unable to parse speed: path=/sbin/ethtool device=docker0
+    2024-09-06T06:02:53.071Z [WARN]  client.fingerprint_mgr.cni_plugins: failed to read CNI plugins directory: cni_path=/opt/cni/bin error="open /opt/cni/bin: no such file or directory"
+    2024-09-06T06:02:56.162Z [INFO]  client.proclib.cg1: initializing nomad cgroups: cores=0-1
+    2024-09-06T06:02:56.203Z [INFO]  client.plugin: starting plugin manager: plugin-type=csi
+    2024-09-06T06:02:56.203Z [INFO]  client.plugin: starting plugin manager: plugin-type=driver
+    2024-09-06T06:02:56.203Z [INFO]  client.plugin: starting plugin manager: plugin-type=device
+    2024-09-06T06:02:56.572Z [INFO]  client: started client: node_id=6e7c6396-87c1-685f-05e9-0094ab7b482c
+    2024-09-06T06:02:56.804Z [INFO]  client: node registration complete
+    2024-09-06T06:03:03.069Z [INFO]  client: node registration complete
+    2024-09-06T06:21:36.527Z [ERROR] client: yamux: keepalive failed: i/o deadline reached
+    2024-09-06T06:21:36.534Z [ERROR] client.rpc: error performing RPC to server: error="rpc error: EOF" rpc=Node.GetClientAllocs server=192.168.56.4:4647
+    2024-09-06T06:21:36.534Z [ERROR] client.rpc: error performing RPC to server: error="rpc error: EOF" rpc=Node.UpdateStatus server=192.168.56.4:4647
+    2024-09-06T06:21:36.540Z [ERROR] client.rpc: error performing RPC to server which is not safe to automatically retry: error="rpc error: EOF" rpc=Node.UpdateStatus server=192.168.56.4:4647
+    2024-09-06T06:21:36.542Z [ERROR] client: error heartbeating. retrying: error="failed to update status: rpc error: EOF" period=1.854697369s
+    2024-09-06T06:21:36.561Z [ERROR] client: error discovering nomad servers: error="client.consul: unable to query Consul datacenters: Unexpected response code: 500 (No known Consul servers)"
+    2024-09-06T06:21:46.671Z [ERROR] client.rpc: error performing RPC to server: error="rpc error: failed to get conn: dial tcp 192.168.56.4:4647: i/o timeout" rpc=Node.GetClientAllocs server=192.168.56.4:4647
+    2024-09-06T06:21:46.672Z [ERROR] client.rpc: error performing RPC to server: error="rpc error: failed to get conn: rpc error: lead thread didn't get connection" rpc=Node.UpdateStatus server=192.168.56.4:4647
+    2024-09-06T06:21:46.673Z [ERROR] client.rpc: error performing RPC to server which is not safe to automatically retry: error="rpc error: failed to get conn: rpc error: lead thread didn't get connection" rpc=Node.UpdateStatus server=192.168.56.4:4647
+    2024-09-06T06:21:46.674Z [ERROR] client: error heartbeating. retrying: error="failed to update status: rpc error: failed to get conn: rpc error: lead thread didn't get connection" period=1.452422398s
+    2024-09-06T06:21:46.677Z [ERROR] client.rpc: error performing RPC to server which is not safe to automatically retry: error="rpc error: failed to get conn: dial tcp 192.168.56.4:4647: i/o timeout" rpc=Node.GetClientAllocs server=192.168.56.4:4647
+    2024-09-06T06:21:46.678Z [ERROR] client: error discovering nomad servers: error="client.consul: unable to query Consul datacenters: Unexpected response code: 500 (No known Consul servers)"
+    2024-09-06T06:21:46.678Z [ERROR] client: error querying node allocations: error="rpc error: failed to get conn: dial tcp 192.168.56.4:4647: i/o timeout"
+    2024-09-06T06:21:51.223Z [ERROR] client.rpc: error performing RPC to server: error="rpc error: failed to get conn: dial tcp 192.168.56.4:4647: connect: no route to host" rpc=Node.UpdateStatus server=192.168.56.4:4647
+    2024-09-06T06:21:51.224Z [ERROR] client.rpc: error performing RPC to server which is not safe to automatically retry: error="rpc error: failed to get conn: dial tcp 192.168.56.4:4647: connect: no route to host" rpc=Node.UpdateStatus server=192.168.56.4:4647
+    2024-09-06T06:21:51.225Z [ERROR] client: error heartbeating. retrying: error="failed to update status: rpc error: failed to get conn: dial tcp 192.168.56.4:4647: connect: no route to host" period=1.243588927s
+    2024-09-06T06:21:51.235Z [ERROR] client: error discovering nomad servers: error="client.consul: unable to query Consul datacenters: Unexpected response code: 500 (No known Consul servers)"
