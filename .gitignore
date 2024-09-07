@@ -1,0 +1,10 @@
+# Ignore Vagrant specific files
+.vagrant/
+
+# Ignore all log files
+*.log
+
+# Ignore OS generated files
+.DS_Store
+Thumbs.db
+
