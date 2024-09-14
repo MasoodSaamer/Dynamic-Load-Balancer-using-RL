@@ -75,7 +75,7 @@ EOF
       sudo systemctl start influxdb
 
       # Set up InfluxDB 2.x with a single permanent API token
-      influx setup --username admin --password 'admin123' --org SaamerOrg --bucket NomadClientStats --retention 0 --force --token "PERMANENT_API_TOKEN"
+      influx setup --username admin --password 'admin123' --org YourOrgName --bucket YourBucketName --retention 0 --force --token "YourAPIToken"
     SHELL
   end
 
@@ -158,9 +158,9 @@ EOF
 
 [[outputs.influxdb_v2]]
   urls = ["http://192.168.56.4:8086"]
-  token = "PERMANENT_API_TOKEN"
-  organization = "SaamerOrg"
-  bucket = "NomadClientStats"
+  token = "YourAPIToken"
+  organization = "YourOrgName"
+  bucket = "YourBucketName"
 
 [[inputs.cpu]]
   percpu = true
