@@ -5,7 +5,7 @@ import gym
 from gym import spaces
 from collections import deque
 
-# Uncomment and configure GPU settings if available
+# configure GPU settings if available
 physical_devices = tf.config.experimental.list_physical_devices('GPU')
 if physical_devices:
     try:
