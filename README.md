@@ -1,6 +1,3 @@
-Here’s the **README.md** in the appropriate Markdown format for your project:
-
-```md
 # Dynamic Load Balancer using Reinforcement Learning
 
 This project implements a **dynamic load balancer** for network traffic using **Reinforcement Learning (RL)**. It simulates a set of Nomad clients and allocates UDP traffic among them based on their resource usage (CPU, memory, and network traffic) to minimize latency. The project utilizes **Nomad** for task orchestration, **InfluxDB** for storing system metrics, and **Telegraf** for collecting those metrics. The RL model learns to distribute traffic intelligently to balance client load and minimize latency.
