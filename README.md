@@ -139,10 +139,3 @@ Telegraf is responsible for sending the system metrics (CPU, memory, network) to
    python udp_intelligent_allocator.py
    ```
 4. Monitor the traffic allocation decisions and resource usage on InfluxDB.
-
-
-```
-
----
-
-This `README.md` format follows common guidelines, and you can customize parts like the Git repository URL and any additional information based on the specific details of your project.
