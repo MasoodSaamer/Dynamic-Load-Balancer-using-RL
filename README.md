@@ -34,17 +34,11 @@ This project was tested on a local environment using **Vagrant** to create the N
 - **Telegraf**: Collects system metrics from each client VM.
 - **Ubuntu 18.04 (Bionic)**: Operating system for the VMs.
   
-## Setup Instructions
 
-### Prerequisites
+## Prerequisites
 - **Vagrant**: Install from [Vagrant official site](https://www.vagrantup.com/downloads).
 - **VirtualBox**: Install from [VirtualBox official site](https://www.virtualbox.org/).
 - **Python 3.10**: Install from [Python official site](https://www.python.org/downloads/).
-
-### 1. Clone the repository
-```bash
-git clone https://github.com/yourusername/dynamic-load-balancer.git
-cd dynamic-load-balancer
 
 2. Set up the Vagrant VMs
 The Vagrantfile in the repository sets up the Nomad server and client VMs. To spin up the VMs:
